@@ -2,14 +2,63 @@
 import pygame
 import time
 import random
-pygame.init()
+import sys
+import os
+
+class Game:
+    "Starts the game"
+
+    pygame.init()
+    pygame.font.init()
+    font = pygame.font.SysFont("Ubuntu", 34)
+    pygame.display.set_caption('Hungry Snake 2.0 BETA!')
+    icon = pygame.image.load('icon.png')
+
+
+    WIDTH: int = 300
+    HEIGHT: int = 200
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    Purple = pygame.Color(128,0,128)
+    screen.fill(Purple)
+ 
+ 
+    def menu() -> None:
+        "The starting menu waitin to press W"
+        Game.write("Press S to start", middle="both")
+        "The starting menu waitin to press W"
+ 
+        while True:
+            pygame.init()
+            event = pygame.event.wait()
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    break
+        pygame.quit()
+
+ 
+    def write(t, x: int = 0, y: int = 0, middle: str = "both", color="white") -> pygame.Surface:
+        text = Game.font.render(t, 1, pygame.Color(color))
+        if middle == "both":
+            rect_middle = text.get_rect(center=((Game.WIDTH // 2, Game.HEIGHT //2)))
+            Game.screen.blit(text, rect_middle)
+        else:
+            Game.screen.blit(text, (x, y))
+        pygame.display.update()
+        return text
+ 
+ 
+Game.menu()
 
 icon = pygame.image.load('icon.png')
 pygame.display.set_icon(icon)
 snake_speed = 28
 # Window size
-window_x = 960
+window_x = 860
 window_y = 630
+
+
  
 # defining colors
 Purple = pygame.Color(128,0,128)
@@ -23,7 +72,8 @@ pygame.init()
 clock = pygame.time.Clock()
 clock.tick(30)
 # Initialise game window
-pygame.display.set_caption('Hungry Snake 1.0 BETA!')
+
+pygame.display.set_caption('Hungry Snake 2.0 BETA!')
 game_window = pygame.display.set_mode((window_x, window_y))
  
 # FPS (frames per second) controller
@@ -52,9 +102,9 @@ change_to = direction
 # initial score
 score = 0
  
-# displaying Score function
+# displaying Score function#
 def show_score(choice, color, font, size):
-   
+    pygame.init()
     # creating font object score_font
     score_font = pygame.font.SysFont("Ubuntu", 25)
      
@@ -67,10 +117,12 @@ def show_score(choice, color, font, size):
     score_rect = score_surface.get_rect()
      
     # displaying text
+    pygame.init()
     game_window.blit(score_surface, score_rect)
  
 # game over function
 def game_over():
+    pygame.font.init()
    
     # creating font object my_font
     my_font = pygame.font.SysFont('Ubuntu', 60)
@@ -90,16 +142,11 @@ def game_over():
     # blit will draw the text on screen
     game_window.blit(game_over_surface, game_over_rect)
     pygame.display.flip()
-     
-    # after 5 seconds we will quit the program
-    time.sleep(5)
-     
-    # deactivating pygame library
-    pygame.quit()
-     
-    # quit the program
-    quit()
- 
+        # after 4 seconds we will quit the program
+    time.sleep(4)    
+    os.execl(sys.executable, sys.executable, *sys.argv)
+    # restart the program
+    
  
 # Main Function
 while True:
@@ -177,6 +224,7 @@ while True:
  
     # Refresh game screen
     pygame.display.update()
+    
  
     # Frame Per Second /Refresh Rate
     fps.tick(snake_speed)
