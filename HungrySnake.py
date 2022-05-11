@@ -4,28 +4,47 @@ import time
 import random
 import sys
 import os
+import tkinter
+from tkinter import*
+from tkinter import CENTER, ttk, messagebox
+from tkinter import Tk, Label, Button
+import tkinter.messagebox
+from tkinter.ttk import *
+import tkinter as tk
+from tkinter.messagebox import showinfo
+from pygame.locals import *
+from pygame import mixer
+
+mixer.init()
+mixer.music.load('bensound-jazzyfrenchy.mp3')
+mixer.music.play()
 
 class Game:
+
     "Starts the game"
 
     pygame.init()
     pygame.font.init()
     font = pygame.font.SysFont("Ubuntu", 34)
-    pygame.display.set_caption('Hungry Snake 2.0 BETA!')
+    pygame.display.set_caption('Hungry Snake 3.0 BETA!')
     icon = pygame.image.load('icon.png')
 
 
-    WIDTH: int = 300
-    HEIGHT: int = 200
+    WIDTH: int = 500
+    HEIGHT: int = 300
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     Purple = pygame.Color(128,0,128)
     screen.fill(Purple)
  
  
     def menu() -> None:
-        "The starting menu waitin to press W"
-        Game.write("Press S to start", middle="both")
-        "The starting menu waitin to press W"
+        "The starting menu waitin to press S"
+        Game.write1("Press S to start", middle="both")
+        "The starting menu waitin to press S"
+        Game.write2("Press A for about this game",middle="both")
+        "The about menu waitin to press A"
+        Game.write3("Press C for credits",middle="both")
+        "The about menu waitin to press C"
  
         while True:
             pygame.init()
@@ -35,13 +54,38 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     break
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    Tk().wm_withdraw() #to hide the main window
+                    messagebox.showinfo('About this game?','This is a free and open source snake game clone.')
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    Tk().wm_withdraw() #to hide the main window
+                    messagebox.showinfo('Who this game?','Jonathan Steadman has made this game but the music is from Bensounds.')
         pygame.quit()
 
- 
-    def write(t, x: int = 0, y: int = 0, middle: str = "both", color="white") -> pygame.Surface:
-        text = Game.font.render(t, 1, pygame.Color(color))
+    def write3(t, x: int = 0, y: int = 0, middle: str = "both", color="white") -> pygame.Surface:
+        text = Game.font.render(t, 5, pygame.Color(color))
         if middle == "both":
             rect_middle = text.get_rect(center=((Game.WIDTH // 2, Game.HEIGHT //2)))
+            Game.screen.blit(text, rect_middle)
+        else:
+            Game.screen.blit(text, (x, y))
+        pygame.display.update()
+        return text 
+    def write2(t, x: int = 0, y: int = 0, middle: str = "both", color="white") -> pygame.Surface:
+        text = Game.font.render(t, 5, pygame.Color(color))
+        if middle == "both":
+            rect_middle = text.get_rect(center=((Game.WIDTH // 2, Game.HEIGHT //3)))
+            Game.screen.blit(text, rect_middle)
+        else:
+            Game.screen.blit(text, (x, y))
+        pygame.display.update()
+        return text 
+    def write1(t, x: int = 0, y: int = 0, middle: str = "both", color="white") -> pygame.Surface:
+        text = Game.font.render(t, 1, pygame.Color(color))
+        if middle == "both":
+            rect_middle = text.get_rect(center=((Game.WIDTH // 2, Game.HEIGHT //5)))
             Game.screen.blit(text, rect_middle)
         else:
             Game.screen.blit(text, (x, y))
@@ -50,10 +94,12 @@ class Game:
  
  
 Game.menu()
-
+mixer.init()
+mixer.music.load('bensound-jazzyfrenchy.mp3')
+mixer.music.play()
 icon = pygame.image.load('icon.png')
 pygame.display.set_icon(icon)
-snake_speed = 28
+snake_speed = 20
 # Window size
 window_x = 860
 window_y = 630
@@ -73,7 +119,7 @@ clock = pygame.time.Clock()
 clock.tick(30)
 # Initialise game window
 
-pygame.display.set_caption('Hungry Snake 2.0 BETA!')
+pygame.display.set_caption('Hungry Snake 3.0 BETA!')
 game_window = pygame.display.set_mode((window_x, window_y))
  
 # FPS (frames per second) controller
