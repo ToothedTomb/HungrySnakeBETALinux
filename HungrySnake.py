@@ -12,7 +12,7 @@ import tkinter.messagebox
 from tkinter.ttk import *
 import tkinter as tk
 from tkinter.messagebox import showinfo
-
+from playsound import playsound
  
  
 
@@ -41,7 +41,7 @@ clock = pygame.time.Clock()
 clock.tick(30)
 # Initialise game window
 
-pygame.display.set_caption('Hungry Snake 4.0 by Jonathan Steadman!')
+pygame.display.set_caption('Hungry Snake 5.0 by Jonathan Steadman!')
 game_window = pygame.display.set_mode((window_x, window_y))
 
 
@@ -99,6 +99,8 @@ def game_over():
      
     # creating a text surface on which text
     # will be drawn
+    playsound('sounds/mixkit-audience-light-applause-354.wav', block=False)
+
     game_over_surface = my_font.render(
         'Well done you got ' + str(score) +" points.", True, purple)
      
@@ -165,6 +167,7 @@ while True:
     if snake_position[0] == fruit_position[0] and snake_position[1] == fruit_position[1]:
         score += 1
         fruit_spawn = False
+        playsound('sounds/mixkit-human-male-enjoy-humm-129.wav', block=False)
     else:
         snake_body.pop()
          
